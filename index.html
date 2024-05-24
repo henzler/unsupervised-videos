@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unsupervised Videos</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/video_comparison.js"></script>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <h1 class="title is-1 publication-title">Unsupervised Learning of 3D Object Categories from Videos in the Wild</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://henzler.github.io">Philipp Henzler</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.facebook.com/jeremy.reizenstein">Jeremy Reizenstein</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/patricklabatut/?originalSubdomain=fr">Patrcik Labatut</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="http://shapovalov.ro/">Roman Shapovalov</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="http://www.homepages.ucl.ac.uk/~ucactri/">Tobias Ritschel</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.robots.ox.ac.uk/~vedaldi/">Andreas Vedaldi</a><sup>2</sup>
+              </span>
+              <span class="author-block">
+                <a href="https://d-novotny.github.io/">David Novotny</a><sup>2</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>University College London</span>,
+              <span class="author-block"><sup>2</sup>Meta AI</span>
+            </div>
+
+            <div class="is-size-5 publication-venue">
+              CVPR 2021
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="./static/images/Henzler_Unsupervised_Learning_of_3D_Object_Categories_From_Videos_in_the_CVPR_2021_paper.pdf"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>PDF</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2103.16552" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://youtu.be/910z84dldEU" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>YouTube</span>
+                  </a>
+                </span>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Overview</h2>
+      <div class="content">
+          <img src="./static/images/teaser.jpg"
+        class="teaser"
+        alt="Teaser."/>
+        <div class="content has-text-justified">
+        <p>
+          We present a novel deep architecture that contributes Warp-conditioned Ray Embedding (WCR) to reconstruct and
+          render new views (right) of object categories from one or few input images (middle). Our model is learned automatically from
+          videos of the objects (left) and works on difficult real data where competitor architectures fail to produce good results
+        </p>
+      </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <!-- Method -->
+          <h2 class="title is-3">Method</h2>
+          <div class="content has-text-justified">
+            <p>
+              Our method takes as input an image and produces per pixel features using a U-Net. 
+              We then shoot rays from a target view and retrieve per-pixel features from one or multiple source images. 
+              Once all spatial feature vectors are aggregated into a single feature vector, 
+              we combine them with their harmonic embeddings and pass them to an MLP yielding per location colors and opacities. 
+              Finally, we use differentiable raymarching to produce a rendered image.
+            </p>
+          </div>
+          <div class="content has-text-justified">
+            <img src="./static/images/Overview.jpg"
+                class="overview"
+                alt="Overview."/>
+          </div>
+            
+          <!-- Dataset -->
+          <h2 class="title is-3">Dataset</h2>
+          <div class="content has-text-justified">      
+            <p>
+              For the purpose of studying learning 3D object categories in the wild, we crowd-sourced a large collection of videos from AMT.
+            </p>
+          </div>
+          <div class="content has-text-justified">
+            <img src="./static/images/camera_tracks.jpg"
+                class="camera-tracks"
+                alt="Camera tracks."/>
+          </div>
+          
+          <!--  -->
+          <!-- Spins -->
+
+          <h2 class="title is-3">Results</h2>
+          <!-- Single image -->
+          <h3 class="title is-4">Single image reconstruction</h3>
+          <div class="content has-text-justified">      
+            <table>
+              <tbody>
+              
+              <tr>
+              <th style="text-align:center"> Source image </th>
+              <th style="text-align:center"> Mesh </th>
+              <th style="text-align:center"> Voxel </th>
+              <th style="text-align:center"> Voxel+MLP </th>
+              <th style="text-align:center"> MLP </th>
+              <th style="text-align:center"> Ours </th>
+              </tr>
+                <tr>
+                  <td>
+                    <img src="./static/images/spins/apple_val_10004_55_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/apple_val_10004_55_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+                </tr>
+              
+                <tr>
+                  <td>
+                    <img src="./static/images/spins/banana_val_1026_74_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/banana_val_1026_74_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+                </tr>
+              
+              <tr>
+                  <td>
+                    <img src="./static/images/spins/carfrei_val_34_264_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/carfrei_val_34_264_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+                </tr>
+              
+              <tr>
+                  <td>
+                    <img src="./static/images/spins/carrot_val_12479_48_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/carrot_val_12479_48_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+                </tr>
+              
+              <tr>
+                  <td>
+                    <img src="./static/images/spins/donut_val_10405_5_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/donut_val_10405_5_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+                </tr>
+              
+              <tr>
+                  <td>
+                    <img src="./static/images/spins/hydrant_val_8265_24_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/hydrant_val_8265_24_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+                </tr>
+              
+              <tr>
+                  <td>
+                    <img src="./static/images/spins/orange_val_1082_5_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/orange_val_1082_5_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+              </tr>
+              
+              <tr>
+                  <td>
+                    <img src="./static/images/spins/sandwich_val_7576_33_0_single.jpg">
+                  </td>
+                  <td colspan="5">
+                    <video autoplay loop muted>
+                      <source src="./static/images/spins/sandwich_val_7576_33_0_single.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+              </tr>
+              
+              
+              </tbody>
+              
+              </table>
+          </div>
+
+          <!-- Multi-view reconstruction -->
+          <h3 class="title is-4">Multi-view reconstruction</h3>
+          <h4 class="title is-5">Donut</h4>
+          <div class="content has-text-justified">
+            <h5 class="title is-6"># Source images</h5>
+            <div class="columns is-vcentered">
+              <div class="column has-text-centered">#1</div>
+              <div class="column has-text-centered">#2</div>
+              <div class="column has-text-centered">#3</div>
+              <div class="column has-text-centered">#4</div>
+              <div class="column has-text-centered">#5</div>
+              <div class="column has-text-centered">#6</div>
+              <div class="column has-text-centered">#7</div>
+            </div>
+            <div class="columns">
+              <img src="./static/images/spins/donut_val_14344_94_multi.jpg">
+            </div>
+            <h5 class="title is-6"># Source images used for reconstruction</h5>
+            <div class="columns">
+              <div class="column has-text-centered">#1</div>
+              <div class="column has-text-centered">#3</div>
+              <div class="column has-text-centered">#5</div>
+              <div class="column has-text-centered">#7</div>
+            </div>
+            <div class="columns">
+              <video autoplay loop muted>
+                <source src="./static/images/spins/donut_val_14344_94_multi.mp4" type="video/mp4">
+              </video>
+            </div>
+            <!-- Hydrant -->
+            <h4 class="title is-5">Hydrant</h4>
+            <h5 class="title is-6"># Source images</h5>
+            <div class="columns is-vcentered">
+              <div class="column has-text-centered">#1</div>
+              <div class="column has-text-centered">#2</div>
+              <div class="column has-text-centered">#3</div>
+              <div class="column has-text-centered">#4</div>
+              <div class="column has-text-centered">#5</div>
+              <div class="column has-text-centered">#6</div>
+              <div class="column has-text-centered">#7</div>
+            </div>
+            <div class="columns">
+              <img src="./static/images/spins/hydrant_val_4183_95_multi.jpg">
+            </div>
+            <h5 class="title is-6"># Source images used for reconstruction</h5>
+            <div class="columns">
+              <div class="column">#1</div>
+              <div class="column">#3</div>
+              <div class="column">#5</div>
+              <div class="column">#7</div>
+            </div>
+            <div class="columns">
+              <video autoplay loop muted>
+                <source src="./static/images/spins/hydrant_val_4183_95_multi.mp4" type="video/mp4">
+              </video>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{henzler2021unsupervised,
+    author    = {Henzler, Philipp and Reizenstein, Jeremy and Labatut, Patrick and Shapovalov, Roman and Ritschel, Tobias and Vedaldi, Andrea and Novotny, David},
+    title     = {Unsupervised Learning of 3D Object Categories from Videos in the Wild},
+    journal   = {CVPR},
+    year      = {2021},
+  }</code></pre>
+    </div>
+  </section>
+  
+  
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This template as borrowd from <a href="https://nerfies.github.io/">Nerfies</a>, <a href="https://reconfusion.github.io/">ReconFusion</a>, and <a href="https://cat3d.github.io/">CAT3D</a> 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
+
+
+  
+
+
+
+
